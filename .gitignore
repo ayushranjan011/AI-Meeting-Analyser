@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+venv311/
+Ai service/venv311/
+
+# Node
+node_modules/
+frontend/frontend/node_modules/
+Backend/node_modules/
+
+# Build output
+build/
+dist/
+frontend/frontend/build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+Backend/.env
+frontend/frontend/.env
+Ai service/.env
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Local git metadata backups used during repo cleanup
+frontend/frontend/.git-backup/
+frontend/frontend/.git-hidden/
