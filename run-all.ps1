@@ -72,6 +72,17 @@ if (-not $aiReady) {
     Write-Host "Check the 'AI Service :5000' window logs for TensorFlow/FER errors." -ForegroundColor Yellow
 } else {
     Write-Host "AI service is healthy on :5000" -ForegroundColor Green
+
+    $warmupImage = Join-Path $root "frontend\frontend\public\logo192.png"
+    if (Test-Path -LiteralPath $warmupImage) {
+        Write-Host "Warming up AI detector (first model load)..." -ForegroundColor Cyan
+        try {
+            & curl.exe -s --max-time 120 -X POST "http://127.0.0.1:5000/detect" -F "frame=@$warmupImage" | Out-Null
+            Write-Host "AI detector warm-up complete." -ForegroundColor Green
+        } catch {
+            Write-Host "AI detector warm-up failed. Live requests will warm it up automatically." -ForegroundColor Yellow
+        }
+    }
 }
 
 Start-ServiceWindow `
@@ -88,3 +99,4 @@ Write-Host "All service windows launched." -ForegroundColor Green
 Write-Host "Frontend: http://localhost:3000" -ForegroundColor Yellow
 Write-Host "Backend:  http://127.0.0.1:4000/health" -ForegroundColor Yellow
 Write-Host "AI API:   http://127.0.0.1:5000/health" -ForegroundColor Yellow
+Write-Host "Tip: If Faces remain 0, relaunch with `$env:AI_USE_MTCNN='false' before npm start." -ForegroundColor Yellow

@@ -1,0 +1,16 @@
+{
+  "name": "ai-meeting-analyser",
+  "private": true,
+  "workspaces": [
+    "Backend",
+    "frontend/frontend"
+  ],
+  "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File .\\run-all.ps1",
+    "start:backend": "npm run start --workspace backend",
+    "start:frontend": "npm run start --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "test:backend": "npm run test --workspace backend",
+    "test:frontend": "npm run test --workspace frontend -- --watchAll=false --runInBand"
+  }
+}

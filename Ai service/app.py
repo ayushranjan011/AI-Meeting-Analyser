@@ -24,7 +24,8 @@ def _build_detector():
 
     use_mtcnn = _env_bool("AI_USE_MTCNN", True)
     max_width = int(os.getenv("AI_MAX_WIDTH", "640"))
-    return FerEmotionDetector(use_mtcnn=use_mtcnn, max_width=max_width)
+    min_face_size = int(os.getenv("AI_MIN_FACE_SIZE", "40"))
+    return FerEmotionDetector(use_mtcnn=use_mtcnn, max_width=max_width, min_face_size=min_face_size)
 
 
 def get_detector():

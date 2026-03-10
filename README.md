@@ -36,38 +36,32 @@ AI meeting analyser/
 - (Optional) MongoDB running locally if you want persistent storage
 
 ## Quick Start (Windows)
-1. Install backend dependencies:
+1. Install Node dependencies from the project root:
 ```powershell
-cd "Backend"
+cd "F:\AI meeting analyser"
 npm install
 ```
 
-2. Install frontend dependencies:
+2. Setup Python environment (inside `Ai service`):
 ```powershell
-cd "..\frontend\frontend"
-npm install
-```
-
-3. Setup Python environment (inside `Ai service`):
-```powershell
-cd "..\..\Ai service"
+cd "Ai service"
 python -m venv venv311
 .\venv311\Scripts\pip install -r requirements.txt
 ```
 
-4. Configure backend env:
+3. Configure backend env:
 ```powershell
 cd "..\Backend"
 Copy-Item .env.example .env
 ```
 
-5. Start all services from project root:
+4. Start all services from the project root:
 ```powershell
 cd ".."
-.\run-all.ps1
+npm start
 ```
 
-6. Open:
+5. Open:
 - Frontend: `http://localhost:3000`
 - Backend health: `http://127.0.0.1:4000/health`
 - AI health: `http://127.0.0.1:5000/health`
@@ -118,6 +112,7 @@ REACT_APP_API_TIMEOUT_MS=65000
 | `AI_DEBUG` | `false` | Flask debug mode |
 | `AI_USE_MTCNN` | `true` | More accurate face detection |
 | `AI_MAX_WIDTH` | `640` | Max frame width before resize |
+| `AI_MIN_FACE_SIZE` | `40` | Minimum face size in pixels for detector |
 
 ## API Endpoints
 
@@ -143,7 +138,8 @@ curl.exe -X POST "http://127.0.0.1:4000/api/analyze-frame" ^
 - UI shows `Analyzing Live` but `Faces: 0`:
   - Ensure enough light and full face visibility.
   - Keep some distance from camera (not too close).
-  - Confirm AI health shows `"useMtcnn": true` at `http://127.0.0.1:5000/health`.
+  - Detector now auto-falls back from MTCNN to Haar cascade when no face is found.
+  - If detection is still weak on your laptop camera, set `AI_USE_MTCNN=false` before starting AI service.
 
 - `AI Latency` stays `0 ms`:
   - Backend may not be receiving analysis response.
